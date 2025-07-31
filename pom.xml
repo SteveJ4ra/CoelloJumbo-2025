@@ -21,14 +21,15 @@
         <war-plugin.version>3.4.0</war-plugin.version>
         <liberty-plugin.version>3.10.3</liberty-plugin.version>
 
-        <!--<server.config.dir>${project.basedir}/src/liberty/config</server.config.dir>-->
-
-        <!-- Configuración para el datasource -->
+        <!-- Define el directorio para el driver JDBC, por ejemplo donde pones el JAR -->
+        <server.config.dir>C:/Users/Steven/Desktop/app/src/liberty/config</server.config.dir>
         <driver.jdbc.dir>${server.config.dir}/lib/global</driver.jdbc.dir>
+
+        <!-- Base de datos local -->
         <db.server.name>localhost</db.server.name>
         <db.port.number>3306</db.port.number>
 
-        <!-- Variables que pueden ser usadas en server.xml -->
+        <!-- Variables para Open Liberty -->
         <liberty.bootstrap.driver.jdbc.dir>${driver.jdbc.dir}</liberty.bootstrap.driver.jdbc.dir>
         <liberty.bootstrap.db.server.name>${db.server.name}</liberty.bootstrap.db.server.name>
         <liberty.bootstrap.db.port.number>${db.port.number}</liberty.bootstrap.db.port.number>
@@ -51,7 +52,7 @@
             <classifier>jakarta</classifier>
         </dependency>
 
-        <!-- MySQL Connector -->
+        <!-- MySQL Connector (misma versión en todo el pom) -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -60,7 +61,7 @@
     </dependencies>
 
     <build>
-        <finalName>kawsayfit-web</finalName>
+        <finalName>organizadorcaja-web</finalName>
 
         <plugins>
             <!-- Compilación -->
@@ -80,7 +81,7 @@
                 <version>${war-plugin.version}</version>
             </plugin>
 
-            <!-- Copiar MySQL Connector a /lib -->
+            <!-- Copiar MySQL Connector a /lib/global -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -90,20 +91,20 @@
                         <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals><goal>copy</goal></goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.mysql</groupId>
+                                    <artifactId>mysql-connector-j</artifactId>
+                                    <version>9.3.0</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${driver.jdbc.dir}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>com.mysql</groupId>
-                            <artifactId>mysql-connector-j</artifactId>
-                            <version>8.3.0</version>
-                            <type>jar</type>
-                            <overWrite>true</overWrite>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </artifactItem>
-                    </artifactItems>
-                </configuration>
             </plugin>
 
             <!-- Plugin de Open Liberty -->

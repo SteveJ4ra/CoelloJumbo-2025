@@ -11,21 +11,22 @@
 
     <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443" />
 
-    <webApplication location="kawsayfit-web.war" contextRoot="/" />
+    <!-- WAR del proyecto -->
+    <webApplication location="organizadorcaja-web.war" contextRoot="/" />
 
     <logging consoleFormat="SIMPLE" consoleLogLevel="INFO" />
     <logging messageFormat="TBASIC" messageLogLevel="INFO" />
     <logging traceSpecification="JPA=all" />
 
-    <!-- DataSource para KawsayFit -->
-    <dataSource id="kawsayfitDS" jndiName="jdbc/kawsayfitDS">
+    <!-- DataSource para OrganizadorCaja -->
+    <dataSource id="organizadorcajaDS" jndiName="jdbc/organizadorcajaDS">
         <jdbcDriver id="mysql-driver" libraryRef="MySqlJDBCLib" />
         <properties
                 serverName="${db.server.name}"
                 portNumber="${db.port.number}"
-                databaseName="kawsayfit"
-                user="kawsayfit_user"
-                password="kawsayfit123"
+                databaseName="organizadorcaja"
+                user="orgcaja_user"
+                password="orgcaja123"
                 useSSL="false"
                 serverTimezone="UTC"
                 allowPublicKeyRetrieval="true" />

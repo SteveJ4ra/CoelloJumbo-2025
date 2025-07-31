@@ -1,18 +1,18 @@
-# VARIABLES DE ENTORNO PARA MYSQL
+# Variables MySQL
 MYSQL_VERSION=8.0.42
 DB_MYSQL_PORT_PUBLIC=3306
-LOCAL_MYSQL_DATA_DIR_BD=C:\Users\Steven\Desktop\docker\otp\Mysql\kawsayfit-db
+LOCAL_MYSQL_DATA_DIR_BD=C:\Users\Steven\Desktop\docker\otp\Mysql\organizadorcaja-db
 
 MYSQL_ROOT_PASSWORD=adminer2526
-MYSQL_USER=kawsayfit_user
-MYSQL_PASSWORD=kawsayfit123
-MYSQL_DATABASE=kawsayfit
+MYSQL_USER=orgcaja_user
+MYSQL_PASSWORD=orgcaja123
+MYSQL_DATABASE=organizadorcaja
 
-# VARIABLES DE ENTORNO COMUNES
-DB_NAME=kawsayfit
-DB_USER=kawsayfit_user
-DB_PASSWORD=kawsayfit123
-DB_SERVER_NAME=kawsayfit-mysql-db
-DB_PORT_NUMBER=3306
+# Variables comunes para la aplicación y Open Liberty
+DB_NAME=organizadorcaja
+DB_USER=orgcaja_user
+DB_PASSWORD=orgcaja123
+db.server.name=organizadorcaja-mysql-db
+db.port.number=3306
 
-DRIVER_JDBC_DIR=target/lib/*.jar
+DRIVER_JDBC_DIR=target/lib
