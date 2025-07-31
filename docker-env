@@ -1,0 +1,18 @@
+# VARIABLES DE ENTORNO PARA MYSQL
+MYSQL_VERSION=8.0.42
+DB_MYSQL_PORT_PUBLIC=3306
+LOCAL_MYSQL_DATA_DIR_BD=C:\Users\Steven\Desktop\docker\otp\Mysql\kawsayfit-db
+
+MYSQL_ROOT_PASSWORD=adminer2526
+MYSQL_USER=kawsayfit_user
+MYSQL_PASSWORD=kawsayfit123
+MYSQL_DATABASE=kawsayfit
+
+# VARIABLES DE ENTORNO COMUNES
+DB_NAME=kawsayfit
+DB_USER=kawsayfit_user
+DB_PASSWORD=kawsayfit123
+DB_SERVER_NAME=kawsayfit-mysql-db
+DB_PORT_NUMBER=3306
+
+DRIVER_JDBC_DIR=target/lib/*.jar

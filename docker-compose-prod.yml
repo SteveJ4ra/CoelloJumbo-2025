@@ -1,0 +1,81 @@
+services:
+
+  kawsayfit-mysql-db:
+    image: mysql:${MYSQL_VERSION}
+    restart: unless-stopped
+    container_name: kawsayfit-mysql-db-container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_MYSQL_PORT_PUBLIC}:3306
+    volumes:
+      - kawsayfit-mysql-data:/var/lib/mysql
+    networks:
+      kawsayfit-network:
+        ipv4_address: 173.21.0.250
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u${MYSQL_USER} -p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  kawsayfit-web:
+    container_name: kawsayfit-web-container
+    build:
+      context: .
+      args:
+        - ENV_DRIVER_JDBC_DIR=${DRIVER_JDBC_DIR}
+    image: kawsayfit-web:latest
+    environment:
+      - DRIVER_JDBC_DIR=/config/
+      - DB_SERVER_NAME=${DB_SERVER_NAME}
+      - DB_PORT_NUMBER=${DB_PORT_NUMBER}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    depends_on:
+      - kawsayfit-mysql-db
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 512M
+    networks:
+      kawsayfit-network:
+
+  mysql-adminer-bd:
+    image: adminer
+    container_name: mysql-adminer-bd-container
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    depends_on:
+      - kawsayfit-mysql-db
+    networks:
+      kawsayfit-network:
+        ipv4_address: 173.21.0.253
+
+networks:
+  kawsayfit-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.21.0.0/24
+
+volumes:
+  kawsayfit-mysql-data:
+    name: kawsayfit-mysql-data-local
+    driver: local
+    driver_opts:
+      type: none
+      device: ${LOCAL_MYSQL_DATA_DIR_BD}
+      o: bind
